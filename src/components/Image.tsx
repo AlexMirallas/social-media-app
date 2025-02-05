@@ -7,7 +7,7 @@ type ImageType ={
     path:string;
     width?:number;
     height?:number;
-    alt?:string;
+    alt:string;
     className?:string;
     tr?: boolean;
 }
@@ -23,8 +23,8 @@ function Image({path,width,height,alt,className, tr}: ImageType) {
                 {transformation:[{width:`${width}`, height:`${height}`}]}
                 : {width:width, height: height})}
             alt={alt}
-            className={className}
-        />
+            className={className}>
+        </IKImage>
     );
 }
 

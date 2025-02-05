@@ -1,9 +1,30 @@
 import Image from "@/components/Image";
 import PostInfo from "@/components/PostInfo";
 import PostInteractions from "@/components/PostInteractions";
+import {imagekit} from "@/utils";
 
+interface FileDetailsResponse{
+    width:number;
+    height:number;
+    filePath:string;
+    url:string;
+    fileType:string;
+    customMetadata?:{sensitive:boolean};
+}
 
-function Post() {
+async function Post() {
+    const getFileDetails = async (fileId:string): Promise<FileDetailsResponse> => {
+        return new Promise((resolve, reject) => {
+            imagekit.getFileDetails(fileId, function(error, result) {
+                if(error) reject(error);
+                else resolve(result as FileDetailsResponse);
+            });
+        })
+    };
+
+    const fileDetails = await getFileDetails("67a3e064432c47641675d462")
+
+    console.log(fileDetails);
     return (
         <div className="border-y-[1px] p-4 border-borderGray">
             {/* Post type*/}
@@ -48,7 +69,14 @@ function Post() {
                         recently with desktop publishing software like Aldus PageMaker including versions
                         of Lorem Ipsum.
                     </p>
-                    <Image path="general/post.jpeg" alt="text post" width={600} height={600}  />
+                    {/*<Image path="general/post.jpeg" alt="text post" width={600} height={600}  />*/}
+                    {fileDetails && <Image
+                        path={fileDetails.filePath}
+                        alt="my image"
+                        width={fileDetails.width}
+                        height={fileDetails.height}
+                        className={fileDetails.customMetadata?.sensitive ? "blur-lg" : ""}
+                    />}
                     <PostInteractions />
                 </div>
             </div>
