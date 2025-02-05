@@ -91,15 +91,27 @@ function LeftBar() {
                     ))}
                 </div>
                 {/* button*/}
-                <Link href="/" className="">
+                <Link
+                    href="/"
+                    className="bg-white text-black rounded-full font-bold w-12 h-12 flex items-center justify-center hover:scale-125 transition ease-in-out duration-600 xxl:hidden">
                     <Image src="icons/post.svg" alt="new post" width={24} height={24} />
                 </Link>
                 <Link href="/" className="hidden xxl:block bg-white text-black rounded-full font-bold py-2 px-20">
                     Post
                 </Link>
             </div>
-            <div className="">
-                User
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                    <div className="w-10 h-10 relative rounded-full overflow-hidden">
+                            <Image src="/general/avatar.png" alt="avatar" fill />s
+                    </div>
+                    <div className="hidden xxl:flex flex-col ">
+                        <span className="font-bold">Qlex</span>
+                        <span className="text-sm text-textGray">@qlexwebdev</span>
+                    </div>
+                </div>
+                <div className="hidden xxl:block cursor-pointer font bold">...</div>
+
             </div>
         </div>
     );
