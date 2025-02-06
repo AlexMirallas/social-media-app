@@ -2,6 +2,7 @@ import Image from "@/components/Image";
 import PostInfo from "@/components/PostInfo";
 import PostInteractions from "@/components/PostInteractions";
 import {imagekit} from "@/utils";
+import Video from "./Video";
 
 interface FileDetailsResponse{
     width:number;
@@ -24,7 +25,7 @@ async function Post() {
 
     const fileDetails = await getFileDetails("67a3e064432c47641675d462")
 
-    console.log(fileDetails);
+
     return (
         <div className="border-y-[1px] p-4 border-borderGray">
             {/* Post type*/}
@@ -70,13 +71,18 @@ async function Post() {
                         of Lorem Ipsum.
                     </p>
                     {/*<Image path="general/post.jpeg" alt="text post" width={600} height={600}  />*/}
-                    {fileDetails && <Image
+                    {fileDetails && fileDetails.fileType ==="image"? (
+                        <Image
+                            path={fileDetails.filePath}
+                            alt="my image"
+                            width={fileDetails.width}
+                            height={fileDetails.height}
+                            // className={fileDetails.customMetadata?.sensitive ? "blur-lg" : ""}
+                        />
+                    ) : <Video
                         path={fileDetails.filePath}
-                        alt="my image"
-                        width={fileDetails.width}
-                        height={fileDetails.height}
                         className={fileDetails.customMetadata?.sensitive ? "blur-lg" : ""}
-                    />}
+                        />}
                     <PostInteractions />
                 </div>
             </div>

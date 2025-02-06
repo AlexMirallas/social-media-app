@@ -3,7 +3,7 @@ import Post from "@/components/Post";
 
 function Feed() {
     return (
-        <div className="">
+        <div className="    ">
             <Post />
             <Post />
             <Post />

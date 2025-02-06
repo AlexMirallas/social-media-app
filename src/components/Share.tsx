@@ -44,7 +44,7 @@ function Share() {
                     className="bg-transparent outline-none placeholder:text-textGray text-xl"
                 />
                 {
-                    previewURL && (<div className="relative rounded-xl overflow-hidden">
+                    media?.type.includes("image") &&  previewURL && (<div className="relative rounded-xl overflow-hidden">
                             <NextImage
                                 src={previewURL}
                                 alt="preview"
@@ -61,7 +61,25 @@ function Share() {
                             >
                                 Edit
                             </div>
+                        <div
+                            className="absolute top-2 right-2 bg-black bg-opacity-50 text-white h-8 w-8 flex items-center justify-center  rounded-full cursor-pointer font-bold text-sm"
+                            onClick={()=>setMedia(null)}
+                        >
+                            X
+                        </div>
                     </div>)
+                }
+                {
+                   media?.type.includes("video") && previewURL && (
+                       <div className="relative">
+                           <video src={previewURL} controls />
+                           <div
+                                className="absolute top-2 right-2 bg-black bg-opacity-50 text-white h-8 w-8 flex items-center justify-center  rounded-full cursor-pointer font-bold text-sm"
+                                onClick={()=>setMedia(null)}
+                           >
+                               X
+                           </div>
+                       </div>)
                 }
                 {isEditorOpen && previewURL &&
                     (<ImageEditor
