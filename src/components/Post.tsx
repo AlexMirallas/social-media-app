@@ -3,6 +3,7 @@ import PostInfo from "@/components/PostInfo";
 import PostInteractions from "@/components/PostInteractions";
 import {imagekit} from "@/utils";
 import Video from "./Video";
+import Link from "next/link";
 
 interface FileDetailsResponse{
     width:number;
@@ -13,7 +14,7 @@ interface FileDetailsResponse{
     customMetadata?:{sensitive:boolean};
 }
 
-async function Post() {
+async function Post({type}:{type?:"status" | "comment"}) {
     const getFileDetails = async (fileId:string): Promise<FileDetailsResponse> => {
         return new Promise((resolve, reject) => {
             imagekit.getFileDetails(fileId, function(error, result) {
@@ -43,33 +44,41 @@ async function Post() {
                 <span className="font-bold text-textGray">qlex reposted</span>
             </div>
             {/*post content*/}
-            <div className="flex gap-4 " >
+            <div className={`flex gap-4 ${type==="status" && "flex-col"}`} >
                 {/*Image*/}
-                <div className="relative w-10 h-10 rounded-full overflow-hidden">
+                <div className={`${type==="status" && "hidden"} relative w-10 h-10 rounded-full overflow-hidden`}>
                     <Image path="general/avatar.png" alt="user avatar" width={100} height={100} tr={true} />
                 </div>
                 {/*content*/}
                 <div className="flex-1 flex flex-col gap-2">
                     {/*top section*/}
-                    <div className="flex items-center justify-between gap-2 ">
-                        <div className="flex items-center gap-2 flex-wrap">
-                            <h1 className="text-md font-bold">Qlex</h1>
-                            <span className="text-textGray">@qlexwebdev</span>
-                            <span className="text-textGray">1 hour ago</span>
-                        </div>
+                    <div className="w-full flex justify-between">
+                        <Link href="/qlex" className="flex gap-4">
+                            <div className={`${type!=="status" && "hidden"} relative w-10 h-10 rounded-full overflow-hidden`}>
+                                <Image path="general/avatar.png" alt="user avatar" width={100} height={100} tr={true} />
+                            </div>
+                            <div className={`${type==="status" && "flex-col gap-0 !items-start"} flex items-center gap-2 flex-wrap`}>
+                                <h1 className="text-md font-bold">Qlex</h1>
+                                <span className={`text-textGray ${type==="status" && "text-sm"}`}>@qlexwebdev</span>
+                                {type!== "status" &&(<span className="text-textGray">1 hour ago</span>)}
+                            </div>
+                        </Link>
                         <PostInfo />
                     </div>
                     {/*Text & media*/}
-                    <p>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                        Lorem Ipsum has been the industry standard dummy text ever since the 1500s,
-                        when an unknown printer took a galley of type and scrambled it to make a type
-                        specimen book. It has survived not only five centuries, but also the leap into
-                        electronic typesetting, remaining essentially unchanged. It was popularised in the
-                        1960s with the release of sheets containing Lorem Ipsum passages, and more
-                        recently with desktop publishing software like Aldus PageMaker including versions
-                        of Lorem Ipsum.
-                    </p>
+                    <Link href={`/alex/status/100`}  >
+                        <p className={`${type==="status" && "text-lg"}`}>
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                            Lorem Ipsum has been the industry standard dummy text ever since the 1500s,
+                            when an unknown printer took a galley of type and scrambled it to make a type
+                            specimen book. It has survived not only five centuries, but also the leap into
+                            electronic typesetting, remaining essentially unchanged. It was popularised in the
+                            1960s with the release of sheets containing Lorem Ipsum passages, and more
+                            recently with desktop publishing software like Aldus PageMaker including versions
+                            of Lorem Ipsum.
+                        </p>
+                    </Link>
+
                     {/*<Image path="general/post.jpeg" alt="text post" width={600} height={600}  />*/}
                     {fileDetails && fileDetails.fileType ==="image"? (
                         <Image
@@ -83,6 +92,7 @@ async function Post() {
                         path={fileDetails.filePath}
                         className={fileDetails.customMetadata?.sensitive ? "blur-lg" : ""}
                         />}
+                    {type==="status" && <span className="text-textGray">01:47 AM * Fev 7,2025 </span>}
                     <PostInteractions />
                 </div>
             </div>
