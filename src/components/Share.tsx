@@ -104,7 +104,8 @@ function Share() {
                                 alt="image icon"
                                 width={20}
                                 height={20}
-                                className="cursor-pointer" />
+                                className="cursor-pointer"
+                            />
                         </label>
 
                         <Image path="icons/gif.svg" alt="gif icon" width={20} height={20} className="cursor-pointer" />
